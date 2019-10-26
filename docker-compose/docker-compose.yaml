@@ -1,7 +1,20 @@
 version: "2.4"
 services:
+
   hash_app:
-    image: busybox
+    build: ../hash_app/.
+    environment:
+      FLASK_ENV: local
+      DATABASE_USER: hash_user
+      DATABASE_PASSWORD: hash_password
+      DATABASE_URL: database
+      DATABASE_PORT: "5432"
+      CHAT_BASE_URL: chat_app
+      CHAT_PORT: "8000"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
 
   chat_app:
     build: ../nl_chat/.
@@ -24,5 +37,3 @@ services:
     environment:
       POSTGRES_DB: default
       POSTGRES_USER: root
-    ports:
-      - "5432:5432"
