@@ -14,7 +14,7 @@ import os
 import string
 import random
 
-DJANGO_ENV = os.getenv("DJANGO_ENV").lower()
+DJANGO_ENV = os.getenv("DJANGO_ENV", "local").lower()
 
 if DJANGO_ENV == "prod":
     import nl_chat.prod_settings as env_settings

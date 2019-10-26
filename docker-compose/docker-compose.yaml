@@ -1,6 +1,28 @@
 version: "2.4"
 services:
-  backend:
+  hash_app:
     image: busybox
+
+  chat_app:
+    build: ../nl_chat/.
+    environment:
+      DJANGO_ENV: local
+      DATABASE_USER: chat_user
+      DATABASE_PASSWORD: chat_password
+      DATABASE_NAME: chat_db
+      DATABASE_URL: database
+      DATABASE_PORT: "5432"
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
   frontend:
     image: busybox
+
+  database:
+    build: database/.
+    environment:
+      POSTGRES_DB: default
+      POSTGRES_USER: root
+    ports:
+      - "5432:5432"
