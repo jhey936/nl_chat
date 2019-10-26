@@ -12,15 +12,25 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+DJANGO_ENV = os.getenv("DJANGO_ENV").lower()
+
+if DJANGO_ENV == "local":
+    import nl_chat.local_settings as env_settings
+
+elif DJANGO_ENV == "prod":
+    import nl_chat.prod_settings as env_settings
+
+else:
+    raise Exception("$DJANGO_ENV must be set to 'local' or 'prod'")
+
+SECRET_KEY = env_settings.SECRET_KEY
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'u0v7dd+(k)-#f*^=+@vy=5t@s+*sy-(2xwjex^hs-lapqh)8o='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
